@@ -49,3 +49,19 @@ function getRandomColor() {
     letterIndex = Math.floor(Math.random() * setChoice.length);
     return setChoice[letterIndex];
   }
+
+  function setDifficulty(difficulty) {
+    let settings = {letterFallSpeed: 1, letterTime: 2000};
+    switch(difficulty) {
+        case 'easy':
+            settings.letterFallSpeed = 0.5;
+            settings.letterTime = 3000;
+            break;
+        // medium values are already assigned by default
+        case 'hard':
+            settings.letterFallSpeed = 1.5;
+            settings.letterTime = 1000;
+            break;
+    }
+    return settings;
+}

@@ -5,10 +5,25 @@ canvas.height = window.innerHeight;
 let score = 0;
 let letterInterval;
 let activeLetters = [];
+let scoreElement = document.getElementById('score');
 
 document.getElementById('startEasy').addEventListener('click', function() {startGame('easy');});
 document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
 document.getElementById('startHard').addEventListener('click', function() {startGame('hard');});
+
+window.addEventListener('keypress', function(e) {
+    let removeIndex = -1;
+    for (let i = 0; i < activeLetters.length; i++) {
+        if (e.key === activeLetters[i].letter) {
+            score ++;
+            scoreElement.textContent = "Score: " + score;
+            removeIndex = i;
+        }
+    }
+    if (removeIndex != -1) {
+        activeLetters.splice(removeIndex, 1);
+    }
+})
 
 function startGame(difficulty) {
     clearInterval(letterInterval);
@@ -30,22 +45,8 @@ function animate() {
 
 function newLetter(settings, score) {
         console.log('new letter calle');
-        const x = Math.random() * canvas.width;
+        const x = (Math.random() * canvas.width * 0.6) + (Math.random() * canvas.width * 0.2);
         const newLetter = new Letter(x, 0, 0, settings.letterFallSpeed, score);
         activeLetters.push(newLetter);
 }
-function setDifficulty(difficulty) {
-    let settings = {letterFallSpeed: 2, letterTime: 2000};
-    switch(difficulty) {
-        case 'easy':
-            settings.letterFallSpeed = 1;
-            settings.letterTime = 3000;
-            break;
-        // medium values are already assigned by default
-        case 'hard':
-            settings.letterFallSpeed = 3;
-            settings.letterTime = 1000;
-            break;
-    }
-    return settings;
-}
+
