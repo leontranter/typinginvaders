@@ -65,3 +65,13 @@ function getRandomColor() {
     }
     return settings;
 }
+
+function createStar() {
+    let star = document.createElement('div');
+    star.className = 'star';
+    star.style.width = '2px';
+    star.style.height = '2px';
+    star.style.left = Math.random() * window.innerWidth + 'px';
+    star.style.top = Math.random() * window.innerHeight + 'px';
+    return star;
+}

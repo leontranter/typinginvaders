@@ -11,6 +11,9 @@ document.getElementById('startEasy').addEventListener('click', function() {start
 document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
 document.getElementById('startHard').addEventListener('click', function() {startGame('hard');});
 
+addStars();
+setTimeout(addStars, 1500);
+
 window.addEventListener('keypress', function(e) {
     let removeIndex = -1;
     for (let i = 0; i < activeLetters.length; i++) {
@@ -50,3 +53,8 @@ function newLetter(settings, score) {
         activeLetters.push(newLetter);
 }
 
+function addStars() {
+    for (let i = 0; i <= 20; i++) {
+        document.body.appendChild(createStar());
+    }
+}
