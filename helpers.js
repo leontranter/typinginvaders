@@ -1,11 +1,11 @@
 let letterSet0 = ['f','j'];
-let letterSet1 = letterSet0.concat(['a','s','k','l','d','k']);
-let letterSet2 = letterSet1.concat(['g','h']);
+let letterSet1 = letterSet0.concat(['k','d']);
+let letterSet2 = letterSet1.concat(['g','h','a','s','l',';']);
 let letterSet3 = letterSet2.concat(['t','y','v','n']);
 let letterSet4 = letterSet3.concat(['u','b','r','n']);
 let letterSet5 = letterSet4.concat(['q','w','u','i','o','p','e']);
 let letterSet6 = letterSet5.concat(['z','x','c','m']);
-let scoreBarriers = [20, 35, 50, 70, 90, 120];
+let scoreBarriers = [16, 30, 42, 70, 90, 120];
 
 
 function getRandomColor() {
