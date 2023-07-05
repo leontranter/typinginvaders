@@ -5,6 +5,8 @@ canvas.height = window.innerHeight;
 let score = 0;
 let letterInterval;
 let activeLetters = [];
+let particles = [];
+let gameRunning = false;
 let scoreElement = document.getElementById('score');
 let numStars = 25;
 let explosionSounds = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
@@ -32,6 +34,11 @@ window.addEventListener('keypress', function(e) {
             score ++;
             scoreElement.textContent = "Score: " + score;
             removeIndex = i;
+            numParticles = Math.random() * 10 + 4;
+             for (let j = 1; j < numParticles + 1; j++) {
+                 particles.push(new Particle(activeLetters[i].x, activeLetters[i].y, (Math.random() * 4) -2, (Math.random() * 4) -2));
+             }
+             break;
         }
     }
     if (removeIndex != -1) {
@@ -44,7 +51,10 @@ function startGame(difficulty) {
     let settings = setDifficulty(difficulty);
     dialog.style.display = 'none';
     letterInterval = setInterval(() => newLetter(settings, score), settings.letterTime);
-    animate();
+    if (!gameRunning) {
+        gameRunning = true;
+        animate();
+    }
 }
 
 function animate() {
@@ -52,13 +62,32 @@ function animate() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     for (let i = 0; i < activeLetters.length; i++) {
         activeLetters[i].update();
+        if (activeLetters[i].y >= canvas.height) {
+            endGame();
+            return;
+        }
         activeLetters[i].draw();
     }
-    requestAnimationFrame(animate);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].alpha <= 0 || particles[i].x <= 0 || particles[i].x >= canvas.width || particles[i].y <= 0 || particles[i].y >= canvas.height) {
+            particles.splice(i, 1);
+        }
+    }
+    if (gameRunning)
+        {requestAnimationFrame(animate);}
+}
+
+function endGame() {
+    gameRunning = false;
+    activeLetters = [];
+    particles = [];
+    scoreElement.textContent = "Final Score: " + score;
+    dialog.style.display = 'block';
 }
 
 function newLetter(settings, score) {
-        console.log('new letter calle');
         const x = (Math.random() * canvas.width * 0.6) + (Math.random() * canvas.width * 0.2);
         const newLetter = new Letter(x, 0, 0, settings.letterFallSpeed, score);
         activeLetters.push(newLetter);
