@@ -6,6 +6,16 @@ let score = 0;
 let letterInterval;
 let activeLetters = [];
 let scoreElement = document.getElementById('score');
+let numStars = 25;
+let explosionSounds = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
+let explosionSoundObjects = explosionSounds.map(sound => new Audio('sounds/' + sound));
+
+function playExplosion() {
+    let randomIndex = Math.floor(Math.random() * explosionSoundObjects.length);
+    let explosionSound = explosionSoundObjects[randomIndex];
+    explosionSound.play().catch(error => console.error('Failed to play sound:', error));
+}
+
 
 document.getElementById('startEasy').addEventListener('click', function() {startGame('easy');});
 document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
@@ -18,6 +28,7 @@ window.addEventListener('keypress', function(e) {
     let removeIndex = -1;
     for (let i = 0; i < activeLetters.length; i++) {
         if (e.key === activeLetters[i].letter) {
+            playExplosion();
             score ++;
             scoreElement.textContent = "Score: " + score;
             removeIndex = i;
@@ -54,7 +65,7 @@ function newLetter(settings, score) {
 }
 
 function addStars() {
-    for (let i = 0; i <= 20; i++) {
+    for (let i = 0; i <= numStars; i++) {
         document.body.appendChild(createStar());
     }
 }
