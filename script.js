@@ -1,7 +1,7 @@
 const NUM_STARS = 25;
 const EXPLOSION_SOUNDS = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
 let canvas, ctx, score, letterInterval, activeLetters, particles, gameRunning, scoreElement, explosionSoundObjects, soundEnabled;
-
+let gameStartTime = Date.now();
 setup();
 
 function startGame(difficulty) {
@@ -21,6 +21,7 @@ function animate() {
     for (let i = 0; i < activeLetters.length; i++) {
         activeLetters[i].update();
         if (activeLetters[i].y >= canvas.height) {
+            console.log("Elapsed time is " + (Date.now() - gameStartTime) / 1000); 
             endGame();
             return;
         }
