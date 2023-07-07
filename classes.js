@@ -15,13 +15,13 @@ class Actor {
 }
 
 class Letter extends Actor {
-    constructor(x, y, speedX, speedY, score) {
+    constructor(x, y, speedX, speedY, game) {
         super(x, y, speedX, speedY);
         this.letterColor = getRandomColor();
         this.element = document.createElement('div');
         this.element.style.left = this.x;
         this.element.style.top = this.y;
-        this.letter = getRandomLetter(score);
+        this.letter = getRandomLetter(game);
     }
     draw() {
             ctx.fillStyle = this.letterColor;

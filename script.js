@@ -1,16 +1,20 @@
 const NUM_STARS = 25;
 const EXPLOSION_SOUNDS = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
 let canvas, ctx, score, letterInterval, activeLetters, particles, gameRunning, scoreElement, explosionSoundObjects, soundEnabled;
-let gameStartTime = Date.now();
+let game = {
+    startTime: null,
+    score: 0,
+    gameRunning: false};
 setup();
 
 function startGame(difficulty) {
+    game.startTime = Date.now();
     clearInterval(letterInterval);
     let settings = setDifficulty(difficulty);
     dialog.style.display = 'none';
-    letterInterval = setInterval(() => newLetter(settings, score), settings.letterTime);
-    if (!gameRunning) {
-        gameRunning = true;
+    letterInterval = setInterval(() => newLetter(settings, game), settings.letterTime);
+    if (!game.gameRunning) {
+        game.gameRunning = true;
         animate();
     }
 }
@@ -21,7 +25,7 @@ function animate() {
     for (let i = 0; i < activeLetters.length; i++) {
         activeLetters[i].update();
         if (activeLetters[i].y >= canvas.height) {
-            console.log("Elapsed time is " + (Date.now() - gameStartTime) / 1000); 
+            console.log("Elapsed time is " + (Date.now() - game.startTime) / 1000); 
             endGame();
             return;
         }
@@ -35,21 +39,21 @@ function animate() {
         }
         particles[i].draw();
     }
-    if (gameRunning)
+    if (game.gameRunning)
         {requestAnimationFrame(animate);}
 }
 
 function endGame() {
-    gameRunning = false;
+    game.gameRunning = false;
     activeLetters = [];
     particles = [];
-    scoreElement.textContent = "Final Score: " + score;
+    scoreElement.textContent = "Final Score: " + game.score;
     dialog.style.display = 'block';
 }
 
-function newLetter(settings, score) {
+function newLetter(settings, game) {
         const x = (Math.random() * canvas.width * 0.6) + (Math.random() * canvas.width * 0.2);
-        const newLetter = new Letter(x, 0, 0, settings.letterFallSpeed, score);
+        const newLetter = new Letter(x, 0, 0, settings.letterFallSpeed, game);
         activeLetters.push(newLetter);
 }
 

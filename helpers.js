@@ -5,6 +5,7 @@ let letterSet3 = letterSet2.concat(['t','y','v','n']);
 let letterSet4 = letterSet3.concat(['u','b','r','n']);
 let letterSet5 = letterSet4.concat(['q','w','u','i','o','p','e']);
 let letterSet6 = letterSet5.concat(['z','x','c','m']);
+let letterSet7 = letterSet6.concat([',','.','/','[',']'])
 let scoreBarriers = [16, 30, 42, 70, 90, 120];
 
 
@@ -21,26 +22,28 @@ function getRandomColor() {
     }
   }
 
-  function getRandomLetter(score) {
-    if (score < scoreBarriers[0]) {
+  function getRandomLetter(game) {
+    let setChocie;
+    console.log(game.score);
+    if (game.score < scoreBarriers[0]) {
         setChoice = letterSet0;
     }
-    else if (score < scoreBarriers[1]) {
+    else if (game.score < scoreBarriers[1]) {
         setChoice = letterSet1;
     }
-    else if (score < scoreBarriers[2]) {
+    else if (game.score < scoreBarriers[2]) {
         setChoice = letterSet2;
     }
-    else if (score < scoreBarriers[3]) {
+    else if (game.score < scoreBarriers[3]) {
         setChoice = letterSet3;
     }
-    else if (score < scoreBarriers[4]) {
+    else if (game.score < scoreBarriers[4]) {
         setChoice = letterSet4;
     }
-    else if (score < scoreBarriers[5]) {
+    else if (game.score < scoreBarriers[5]) {
         setChoice = letterSet5;
     }
-    else if (score < scoreBarriers[6]) {
+    else if (game.score < scoreBarriers[6]) {
         setChoice = letterSet6;
     }
     else {
