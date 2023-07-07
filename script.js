@@ -1,6 +1,6 @@
 const NUM_STARS = 25;
 const EXPLOSION_SOUNDS = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
-let canvas, ctx, score, letterInterval, activeLetters, particles, gameRunning, scoreElement, explosionSoundObjects;
+let canvas, ctx, score, letterInterval, activeLetters, particles, gameRunning, scoreElement, explosionSoundObjects, soundEnabled;
 
 setup();
 
@@ -59,6 +59,8 @@ function addStars() {
 }
 
 function playExplosion() {
+    if (!soundEnabled) {
+        return;}
     let randomIndex = Math.floor(Math.random() * explosionSoundObjects.length);
     let explosionSound = explosionSoundObjects[randomIndex];
     explosionSound.play().catch(error => console.error('Failed to play sound:', error));
@@ -68,6 +70,7 @@ function setupEventListeners() {
     document.getElementById('startEasy').addEventListener('click', function() {startGame('easy');});
     document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
     document.getElementById('startHard').addEventListener('click', function() {startGame('hard');});
+    document.getElementById('soundCheckbox').addEventListener('change', function() {soundEnabled = this.ariaChecked;});
     window.addEventListener('keypress', handleKeyPress);
 }
 
