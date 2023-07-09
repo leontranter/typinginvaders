@@ -27,9 +27,11 @@ function getRandomColor() {
     console.log(game.score);
     if (game.score < scoreBarriers[0]) {
         setChoice = letterSet0;
+        console.log('score is ' + game.score + ', scoreBarriers is ' + scoreBarriers[0]);
     }
     else if (game.score < scoreBarriers[1]) {
         setChoice = letterSet1;
+        console.log('score is ' + game.score + ', scoreBarriers is ' + scoreBarriers[1]);
     }
     else if (game.score < scoreBarriers[2]) {
         setChoice = letterSet2;

@@ -93,7 +93,7 @@ function setup() {
     ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    score = 0;
+    game.score = 0;
     letterInterval = null;
     activeLetters = [];
     particles = [];
@@ -129,14 +129,14 @@ function breakShield(index) {
 
 function destroyLetter(index) {
     playExplosion();
-    score ++;
-    scoreElement.textContent = "Score: " + score;
-    createExplosion(index);
+    game.score ++;
+    scoreElement.textContent = "Score: " + game.score;
+    createExplosion(index, 'white');
     activeLetters.splice(index, 1);
 }
 
-function createExplosion(index) {
-    let numParticles = Math.random() * 10 + 4;
+function createExplosion(index, color) {
+    let numParticles = Math.random() * 11 + 4;
     for (let j = 1; j < numParticles + 1; j++) {
         particles.push(new Particle(activeLetters[index].x, activeLetters[index].y, (Math.random() * 4) -2, (Math.random() * 4) -2));
     }

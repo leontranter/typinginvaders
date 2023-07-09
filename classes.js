@@ -34,22 +34,28 @@ class Letter extends Actor {
             ctx.font = '32px serif';  // You can adjust the size and font as needed
             ctx.fillText(this.letter, this.x, this.y);
             if (this.numberOfShields > 0) {
+                let textWidth = ctx.measureText(this.letter).width;
+                let textHeight = 32;
+                let centreX = this.x + textWidth / 2;
+                let centreY = this.y - textHeight / 2;
+                let gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, 20);
+                gradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+                gradient.addColorStop(1, 'rgba(35, 35, 255, 0.4)');
+                ctx.fillStyle = gradient;
                 ctx.beginPath();
-                ctx.arc(this.x + 5, this.y -7, 30, 0, Math.PI * 2, false);
-                ctx.strokeStyle = 'white';
-                ctx.lineWidth = 5;
-                ctx.stroke();
+                ctx.arc(centreX, centreY + 3, 30, 0, Math.PI * 2);
+                ctx.fill();
             }
         }
     }
 
     const friction = 0.99;
     class Particle extends Actor {
-        constructor(x, y, speedX, speedY) {
+        constructor(x, y, speedX, speedY, color) {
             super(x, y, speedX, speedY);
-            this.color = getRandomColor();
-            this.radius = Math.random() * 3;
-            this.alpha = 0.8;
+            this.color = color || getRandomColor();
+            this.radius = Math.random() * 4;
+            this.alpha = 0.5;
         }
         update () {
             this.speedX *= friction;
