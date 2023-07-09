@@ -12,6 +12,9 @@ class Actor {
     draw() {
         
     }
+    isOffScreen() {
+        return this.y >= canvas.height || this.x < 0 || this.x > canvas.width || this.y <= 0;
+    }
 }
 
 class Letter extends Actor {

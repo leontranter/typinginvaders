@@ -24,7 +24,7 @@ function animate() {
     ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
     for (let i = 0; i < activeLetters.length; i++) {
         activeLetters[i].update();
-        if (activeLetters[i].y >= canvas.height) {
+        if (activeLetters[i].isOffScreen()) {
             console.log("Elapsed time is " + (Date.now() - game.startTime) / 1000); 
             endGame();
             return;
@@ -53,7 +53,7 @@ function endGame() {
 
 function newLetter(settings, game) {
         const x = (Math.random() * canvas.width * 0.6) + (Math.random() * canvas.width * 0.2);
-        const newLetter = new Letter(x, 0, 0, settings.letterFallSpeed, game);
+        const newLetter = new Letter(x, 1, 0, settings.letterFallSpeed, game);
         activeLetters.push(newLetter);
 }
 
