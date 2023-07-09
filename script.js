@@ -109,26 +109,35 @@ function setup() {
 }
 
 function handleKeyPress(e) {
-    let removeIndex = -1;
     for (let i = 0; i < activeLetters.length; i++) {
         if (e.key === activeLetters[i].letter) {
             if (activeLetters[i].numberOfShields > 0) {
-                activeLetters[i].numberOfShields--;
-                playShieldBreak();
-                break;
+                breakShield(i);
+            } else {
+                destroyLetter(i);
             }
-            playExplosion();
-            score ++;
-            scoreElement.textContent = "Score: " + score;
-            removeIndex = i;
-            numParticles = Math.random() * 10 + 4;
-             for (let j = 1; j < numParticles + 1; j++) {
-                 particles.push(new Particle(activeLetters[i].x, activeLetters[i].y, (Math.random() * 4) -2, (Math.random() * 4) -2));
-             }
-             break;
+            break;
         }
     }
-    if (removeIndex != -1) {
-        activeLetters.splice(removeIndex, 1);
+}
+
+function breakShield(index) {
+    activeLetters[index].numberOfShields--;
+    playShieldBreak();
+    createExplosion(index);
+}
+
+function destroyLetter(index) {
+    playExplosion();
+    score ++;
+    scoreElement.textContent = "Score: " + score;
+    createExplosion(index);
+    activeLetters.splice(index, 1);
+}
+
+function createExplosion(index) {
+    let numParticles = Math.random() * 10 + 4;
+    for (let j = 1; j < numParticles + 1; j++) {
+        particles.push(new Particle(activeLetters[index].x, activeLetters[index].y, (Math.random() * 4) -2, (Math.random() * 4) -2));
     }
 }
