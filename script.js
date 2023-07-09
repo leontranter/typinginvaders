@@ -1,5 +1,6 @@
 const NUM_STARS = 25;
 const EXPLOSION_SOUNDS = ['Explosion+1.mp3', 'Explosion+2.mp3', 'Explosion+3.mp3','Explosion+4.mp3','Explosion+5.mp3','Explosion+6.mp3','Explosion+7.mp3','Explosion+8.mp3','Explosion+9.mp3','Explosion+10.mp3'];
+const SHIELD_SOUNDS = ['Shield1.mp3', 'Shield2.mp3'];
 let canvas, ctx, score, letterInterval, activeLetters, particles, gameRunning, scoreElement, explosionSoundObjects, soundEnabled;
 let game = {
     startTime: null,
@@ -33,7 +34,7 @@ function animate() {
     }
     for (let i = 0; i < particles.length; i++) {
         particles[i].update();
-        if (particles[i].alpha <= 0 || particles[i].x <= 0 || particles[i].x >= canvas.width || particles[i].y <= 0 || particles[i].y >= canvas.height) {
+        if (particles[i].alpha <= 0 || particles[i].isOffScreen()) {
             particles.splice(i, 1);
             break;
         }
@@ -71,6 +72,14 @@ function playExplosion() {
     explosionSound.play().catch(error => console.error('Failed to play sound:', error));
 }
 
+function playShieldBreak() {
+    if (!soundEnabled) {
+        return;}
+    let randomIndex = Math.floor(Math.random() * shieldSoundObjects.length);
+    let shieldSound = shieldSoundObjects[randomIndex];
+    shieldSound.play().catch(error => console.error('Failed to play sound:', error));
+}
+
 function setupEventListeners() {
     document.getElementById('startEasy').addEventListener('click', function() {startGame('easy');});
     document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
@@ -91,6 +100,7 @@ function setup() {
     gameRunning = false;
     scoreElement = document.getElementById('score');
     explosionSoundObjects = EXPLOSION_SOUNDS.map(sound => new Audio('sounds/' + sound));
+    shieldSoundObjects = SHIELD_SOUNDS.map(sound => new Audio('sounds/' + sound));
     soundEnabled = document.getElementById('soundCheckbox').checked;
 
     setupEventListeners();
@@ -102,6 +112,11 @@ function handleKeyPress(e) {
     let removeIndex = -1;
     for (let i = 0; i < activeLetters.length; i++) {
         if (e.key === activeLetters[i].letter) {
+            if (activeLetters[i].numberOfShields > 0) {
+                activeLetters[i].numberOfShields--;
+                playShieldBreak();
+                break;
+            }
             playExplosion();
             score ++;
             scoreElement.textContent = "Score: " + score;

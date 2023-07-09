@@ -1,3 +1,5 @@
+const CHANCE_OF_SHIELDS = 0.5; 
+
 class Actor {
     constructor(x, y, speedX, speedY){
         this.x = x;
@@ -25,11 +27,19 @@ class Letter extends Actor {
         this.element.style.left = this.x;
         this.element.style.top = this.y;
         this.letter = getRandomLetter(game);
+        this.numberOfShields = Math.random() < CHANCE_OF_SHIELDS ? 1 : 0;
     }
     draw() {
             ctx.fillStyle = this.letterColor;
             ctx.font = '32px serif';  // You can adjust the size and font as needed
             ctx.fillText(this.letter, this.x, this.y);
+            if (this.numberOfShields > 0) {
+                ctx.beginPath();
+                ctx.arc(this.x + 5, this.y -7, 30, 0, Math.PI * 2, false);
+                ctx.strokeStyle = 'white';
+                ctx.lineWidth = 5;
+                ctx.stroke();
+            }
         }
     }
 
