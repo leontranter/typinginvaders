@@ -75,7 +75,7 @@ function setupEventListeners() {
     document.getElementById('startEasy').addEventListener('click', function() {startGame('easy');});
     document.getElementById('startMedium').addEventListener('click', function() {startGame('medium');});
     document.getElementById('startHard').addEventListener('click', function() {startGame('hard');});
-    document.getElementById('soundCheckbox').addEventListener('change', function() {soundEnabled = this.ariaChecked;});
+    document.getElementById('soundCheckbox').addEventListener('change', function() {soundEnabled = this.Checked; console.log('sound enabled: ' + soundEnabled);});
     window.addEventListener('keypress', handleKeyPress);
 }
 
@@ -91,6 +91,7 @@ function setup() {
     gameRunning = false;
     scoreElement = document.getElementById('score');
     explosionSoundObjects = EXPLOSION_SOUNDS.map(sound => new Audio('sounds/' + sound));
+    soundEnabled = document.getElementById('soundCheckbox').checked;
 
     setupEventListeners();
     addStars();
